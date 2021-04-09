@@ -9,7 +9,7 @@ def calculate_demographic_data(print_data=True):
 	race_count = df['race'].value_counts()
 
 	# What is the average age of men?
-	average_age_men = df.loc[df['sex'] == 'Male', ['age']].mean().round(1)
+	average_age_men = df.loc[df['sex'] == 'Male', 'age'].mean().round(1)
 
 	# What is the percentage of people who have a Bachelor's degree?
 	percentage_bachelors = df['education'].value_counts(normalize=True).mul(100).round(1)['Bachelors']
@@ -39,11 +39,12 @@ def calculate_demographic_data(print_data=True):
 	whole_num = df['native-country'].value_counts()
 	precentage_wage = countries_rich / whole_num
 	highest_earning_country = precentage_wage.idxmax()
-	#has different indexes due to existin countries not having >50K salaries in ['native-country'] series
 	highest_earning_country_percentage = round(precentage_wage[highest_earning_country] * 100, 1)
 
 	# Identify the most popular occupation for those who earn >50K in India.
-	top_IN_occupation = None
+	search = ((df['native-country']=='India') & (df['salary']=='>50K'))
+	India = df.loc[search, 'occupation'].value_counts()
+	top_IN_occupation = India.idxmax()
 
 	# DO NOT MODIFY BELOW THIS LINE
 
@@ -73,4 +74,3 @@ def calculate_demographic_data(print_data=True):
 			'top_IN_occupation': top_IN_occupation
 			}
 
-calculate_demographic_data()
