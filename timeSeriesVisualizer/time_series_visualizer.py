@@ -9,7 +9,8 @@ df = pd.read_csv('fcc-forum-pageviews.csv',
 				parse_dates=True,
 				index_col='date')
 # Clean data
-df = df[(df['value'] >= df['value'].quantile(0.025)) &			(df['value'] <= df['value'].quantile(0.975))]
+df = df[(df['value'] >= df['value'].quantile(0.025)) &
+		(df['value'] <= df['value'].quantile(0.975))]
 
 def draw_line_plot():
 	# Draw line plot
@@ -23,9 +24,8 @@ draw_line_plot()
 def draw_bar_plot():
 	# Copy and modify data for monthly bar plot
 	df_bar = df.copy()
-	df_bar = df_bar.reindex(df_bar.index)
-
-
+	df_bar['month'] = df_bar.index.month
+	df_bar.index = df_bar.index.year
 
 	print(df_bar)
 	# Draw bar plot
